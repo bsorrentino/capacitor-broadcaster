@@ -8,7 +8,22 @@ import Capacitor
 @objc(BroadcasterPlugin)
 public class BroadcasterPlugin: CAPPlugin {
     
-    @objc func echo(_ call: CAPPluginCall) {
+    @objc func addEventListener(_ call: CAPPluginCall) {
+        let value = call.getString("value") ?? ""
+        call.success([
+            "value": value
+        ])
+    }
+    @objc func removeEventListener(_ call: CAPPluginCall) {
+        
+        let value = call.getString("value") ?? ""
+        call.success([
+            "value": value
+        ])
+    }
+
+    @objc func fireNativeEvent(_ call: CAPPluginCall) {
+        
         let value = call.getString("value") ?? ""
         call.success([
             "value": value

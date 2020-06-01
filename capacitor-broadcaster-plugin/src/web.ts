@@ -8,11 +8,18 @@ export class BroadcasterPluginWeb extends WebPlugin implements BroadcasterPlugin
       platforms: ['web']
     });
   }
+  
+  async addNativeEventListener(options: { eventName: string; }): Promise<void> {
 
-  async echo(options: { value: string }): Promise<{value: string}> {
-    console.log('ECHO', options);
-    return options;
   }
+
+  async removeNativeEventListener(options: { listenrId: string; }): Promise<void> {
+  }
+
+  async fireNativeEvent(options: { eventName: string; dtata: any; }): Promise<void> {
+ 
+  }
+
 }
 
 const BroadcasterPlugin = new BroadcasterPluginWeb();
