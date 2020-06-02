@@ -7,5 +7,5 @@ declare module "@capacitor/core" {
 export interface BroadcasterPluginPlugin {
   addNativeEventListener( options: { eventName: string }): Promise<void>;
   removeNativeEventListener( options: { eventName: string }): Promise<void>;
-  fireNativeEvent( options: { eventName: string, data:any } ): Promise<void>;
+  dispatchNativeEvent( options: { eventName: string, data:any } ): Promise<void>;
 }

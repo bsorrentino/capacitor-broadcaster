@@ -20,8 +20,8 @@ export class BroadcasterPluginWeb extends WebPlugin implements BroadcasterPlugin
     return null;
   }
 
-  async fireNativeEvent(options: { eventName: string; data: any; }): Promise<void> {
-    console.log( 'fireNativeEvent', options.eventName );
+  async dispatchNativeEvent(options: { eventName: string; data: any; }): Promise<void> {
+    console.log( 'dispatchNativeEvent', options.eventName );
     return null; 
   }
 

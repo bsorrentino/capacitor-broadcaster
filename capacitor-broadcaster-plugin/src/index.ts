@@ -28,7 +28,7 @@ export class BroadcasterPluginHelper  {
     }
     async dispatchNativeEvent( eventName:string, data:any  ) {
 
-        await BroadcasterPlugin.fireNativeEventListener( { eventName:eventName, data:data })
+        await BroadcasterPlugin.dispatchNativeEvent( { eventName:eventName, data:data })
 
     }
 
