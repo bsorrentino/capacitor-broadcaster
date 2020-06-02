@@ -8,25 +8,62 @@ import Capacitor
 @objc(BroadcasterPlugin)
 public class BroadcasterPlugin: CAPPlugin {
     
-    @objc func addEventListener(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
-        call.success([
-            "value": value
-        ])
-    }
-    @objc func removeEventListener(_ call: CAPPluginCall) {
+    var observerMap = Dictionary<String,NSObjectProtocol>()
+    
+    @objc func addNativeEventListener(_ call: CAPPluginCall) {
         
-        let value = call.getString("value") ?? ""
-        call.success([
-            "value": value
-        ])
+        guard let eventName = call.getString("eventName") else {
+            call.error("missing parameter 'eventName'!")
+            return
+        }
+        
+        var observer = observerMap[eventName]
+        
+        if( observer == nil ) {
+         
+            observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: eventName), object:self, queue: .main) { note in
+                
+                print( "native event \(eventName) received!")
+            }
+            
+            observerMap[ eventName ] = observer
+        }
+        
+        call.success()
+    }
+    
+    @objc func removeNativeEventListener(_ call: CAPPluginCall) {
+
+        guard let eventName = call.getString("eventName") else {
+            call.error("missing parameter 'eventName'!")
+            return
+        }
+
+        if let observer = observerMap[eventName]  {
+            
+            NotificationCenter.default.removeObserver(observer, name: NSNotification.Name(rawValue: eventName), object: self)
+            
+            observerMap.removeValue(forKey: eventName)
+            
+        }
+
+        call.success()
     }
 
-    @objc func fireNativeEvent(_ call: CAPPluginCall) {
+    @objc func dispatchNativeEvent(_ call: CAPPluginCall) {
+
+        guard let eventName = call.getString("eventName") else {
+            call.error("missing parameter 'eventName'!")
+            return
+        }
+
+        guard let data = call.getObject("data") else {
+            call.error("missing parameter 'data'!")
+            return
+        }
+
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: eventName), object: self, userInfo:data )
         
-        let value = call.getString("value") ?? ""
-        call.success([
-            "value": value
-        ])
+        call.success()
     }
 }
