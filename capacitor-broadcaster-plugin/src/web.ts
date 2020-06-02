@@ -9,15 +9,20 @@ export class BroadcasterPluginWeb extends WebPlugin implements BroadcasterPlugin
     });
   }
   
+
   async addNativeEventListener(options: { eventName: string; }): Promise<void> {
-
+    console.log( 'addNativeEventListener', options.eventName );
+    return null;
   }
 
-  async removeNativeEventListener(options: { listenrId: string; }): Promise<void> {
+  async removeNativeEventListener(options: { eventName: string; }): Promise<void> {
+    console.log( 'removeNativeEventListener', options.eventName );
+    return null;
   }
 
-  async fireNativeEvent(options: { eventName: string; dtata: any; }): Promise<void> {
- 
+  async fireNativeEvent(options: { eventName: string; data: any; }): Promise<void> {
+    console.log( 'fireNativeEvent', options.eventName );
+    return null; 
   }
 
 }
